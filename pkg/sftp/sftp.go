@@ -39,7 +39,6 @@ func Upload(fromPath string, toPath string, cli *sftp.Client) error {
 	}
 	defer dstFile.Close()
 
-	io.Pipe()
 	_, err = io.Copy(dstFile, srcFile)
 	return err
 }
