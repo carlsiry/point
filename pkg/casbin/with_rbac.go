@@ -16,12 +16,12 @@ func (m *ModelRBAC) literal() string {
 		
 		[role_definition]
 		g = _, _
+
+		[matchers]
+		m = g(r.sub, p.sub) && r.obj == p.obj && r.act == p.act
 		
 		[policy_effect]
 		e = some(where (p.eft == allow))
-		
-		[matchers]
-		m = g(r.sub, p.sub) && r.obj == p.obj && r.act == p.act
 	`
 
 	return model
@@ -51,9 +51,7 @@ func (m *ModelRBAC) CheckPermission(userID, url, method string) (bool, error) {
 }
 
 func (m *ModelRBAC) AddRolesForUser(id string, lstRoleID []string) {
-	for _, role := range lstRoleID {
-		m.AddRoleForUser(id, role)
-	}
+	m.Enforcer.AddRolesForUser(id, lstRoleID)
 }
 
 func NewRBAC(policies Policies) *ModelRBAC {
