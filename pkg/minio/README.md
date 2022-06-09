@@ -15,7 +15,8 @@ docker run \
 
 ```shell
 docker run --name minio -d \
-        -p 8888:8888 -p 9999:9000 \
+        --restart=awlays \
+        -p 9999:9000 \
         -e "MINIO_ACCESS_KEY=pms" \
         -e "MINIO_SECRET_KEY=pms123456" \
         -v data:/data minio/minio:RELEASE.2020-12-03T05-49-24Z server /data
