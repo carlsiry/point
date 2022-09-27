@@ -12,7 +12,7 @@ func (m *ModelRBAC) literal() string {
 		r = sub, obj, act
 		
 		[policy_definition]
-		p = sub, obj, act
+		p = sub, obj, act, eft
 		
 		[role_definition]
 		g = _, _
@@ -21,7 +21,7 @@ func (m *ModelRBAC) literal() string {
 		m = g(r.sub, p.sub) && r.obj == p.obj && r.act == p.act
 		
 		[policy_effect]
-		e = some(where (p.eft == allow))
+		e = some(where (p.eft == allow)) && !some(where (p.eft == deny))
 	`
 
 	return model
@@ -33,6 +33,10 @@ func (m *ModelRBAC) set(enforcer *casbin.Enforcer) {
 
 func (m *ModelRBAC) load(lst Policies) {
 	lst.Batch(m.AddPermissionsForUser)
+}
+
+func (m *ModelRBAC) loadPolicy(lst [][]string) {
+	m.AddPolicies(lst)
 }
 
 func (m *ModelRBAC) DeleteRoles(lst []string) {

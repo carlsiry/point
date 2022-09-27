@@ -5,7 +5,7 @@ import (
 	"github.com/casbin/casbin/v2/model"
 )
 
-type loader func(user string, permissions ...[]string) (bool, error)
+type loader func(subject string, permissions ...[]string) (bool, error)
 
 type Policy struct {
 	Subject string
